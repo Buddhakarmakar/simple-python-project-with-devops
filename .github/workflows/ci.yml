@@ -65,6 +65,6 @@ jobs:
       - name: Run custom PR reviewer
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ANTHROPIC_API_KEY: ${{ secrets.COHERE_API_KEY }}
+          COHERE_API_KEY: ${{ secrets.COHERE_API_KEY }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: uv run python scripts/pr_reviewer.py
