@@ -4,9 +4,7 @@ version = "0.1.0"
 description = "A simple calculator with a tkinter UI"
 readme = "README.md"
 requires-python = ">=3.10,<3.13"
-dependencies = [
-    "cohere>=7.1.1",
-]
+
 
 [project.scripts]
 calculator = "calculator.app:main"
@@ -22,4 +20,8 @@ packages = ["src/calculator"]
 dev = [
     "pytest>=8.0",
     "flake8>=7.0",
+]
+review = [
+    "requests>=2.31",
+    "cohere>=7.1.1",
 ]
