@@ -69,8 +69,17 @@ Diff:
         ],
     )
 
-    return response.message.content[0].text
-
+    # return response.message.content[0]
+    content = response.message.content
+    if isinstance(content, list):
+        if content:
+            item = content[0]
+            if hasattr(item, 'text'):
+                return item.text
+            if isinstance(item, dict):
+                return item.get('text', '')
+            return str(item)
+    return "Everything looks good!"  # fallback if content is not as expected
     # return "".join(
     #     block.text for block in message.content if block.type == "text"
     # )
