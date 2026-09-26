@@ -46,14 +46,22 @@ def get_pr_diff() -> str:
 
 def review_with_cohere(diff: str) -> str:
     client = cohere.ClientV2(api_key=COHERE_API_KEY)
-    prompt = f"""You are an experienced senior Python engineer doing a pull request code review.
-Review the following diff for:
-- Bugs or logic errors
-- Security issues
-- Code style / readability
-- Missing tests or edge cases
+    prompt = f"""You are a senior Python engineer doing a strict PR code review.
 
-Be concise and specific. Use bullet points. If the code looks good, say so briefly.
+Review ONLY the lines changed in this diff. For each issue found, output exactly one bullet in this format:
+
+- [SEVERITY] file:line — Issue: <one-line description> | Fix: <specific code-level fix>
+
+Severity levels: BUG, SECURITY, STYLE, MISSING_TEST
+
+Rules:
+- Only report issues you can point to a specific line for. No general praise, no summaries, no "looks good overall" commentary.
+- Do not restate what the diff does.
+- Do not comment on unchanged code unless a changed line breaks something in it.
+- If a fix requires new/changed code, show it as a short snippet, not a description.
+- Skip a category entirely if there's nothing to report in it — do not write "no issues found" bullets.
+- If there are truly zero issues across all categories, respond with exactly: "No issues found."
+- Max 10 bullets. Prioritize BUG and SECURITY over STYLE.
 
 Diff:
 {diff}
